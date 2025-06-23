@@ -54,7 +54,8 @@ export default function Sidebar({ isToggledSidebar, setIsToggledSidebar }) {
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem("user");
-      if (storedUser) {
+
+      if (storedUser && storedUser !== "undefined" && storedUser !== "null") {
         setUser(JSON.parse(storedUser));
       }
     } catch (error) {
@@ -62,10 +63,30 @@ export default function Sidebar({ isToggledSidebar, setIsToggledSidebar }) {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");      // Xoá user lưu trong localStorage
-    localStorage.removeItem("token");      // nếu có access token
-    router.push("/sign-in");               // Điều hướng về trang đăng nhập
+
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch('http://localhost:3000/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        throw new Error("Đăng xuất thất bại");
+      }
+
+
+
+      window.location.href = "http://localhost:3003";
+    } catch (error) {
+      console.error("Lỗi khi đăng xuất:", error.message);
+    }
   };
 
   return (

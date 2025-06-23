@@ -168,41 +168,43 @@ export default function Home() {
         const data = await res.json();
         setOrders(data);
 
-        const tongDon = data.length;
-        const dangGiao = data.filter((o) => o.trang_thai === "Đang giao").length;
-        const daNhan = data.filter(
-          (o) => o.trang_thai === "Shipper đã nhận hàng" || o.trang_thai === "Đang giao"
-        ).length;
-        const daGiao = data
-          .filter((o) => o.trang_thai === "Giao hàng thành công")
-          .reduce((sum, o) => sum + (o.tong_tien || 0), 0);
+        if (Array.isArray(data)) {
+          const tongDon = data.length;
+          const dangGiao = data.filter((o) => o.trang_thai === "Đang giao").length;
+          const daNhan = data.filter(
+            (o) => o.trang_thai === "Shipper đã nhận hàng" || o.trang_thai === "Đang giao"
+          ).length;
+          const daGiao = data
+            .filter((o) => o.trang_thai === "Giao hàng thành công")
+            .reduce((sum, o) => sum + (o.tong_tien || 0), 0);
 
-        setStats([
-          {
-            label: "Tổng Đơn Hàng",
-            value: tongDon.toString(),
-            icon: "fas fa-receipt",
-            color: "bg-green-100 text-green-500",
-          },
-          {
-            label: "Đơn hàng đã nhận",
-            value: daNhan.toString(),
-            icon: "fa-regular fa-square-plus",
-            color: "bg-blue-100 text-blue-500",
-          },
-          {
-            label: "Đơn hàng đang giao",
-            value: dangGiao.toString(),
-            icon: "fas fa-spinner",
-            color: "bg-yellow-100 text-yellow-500",
-          },
-          {
-            label: "Đã giao",
-            value: `₫${daGiao.toLocaleString("vi-VN")}`,
-            icon: "fas fa-dollar-sign",
-            color: "bg-purple-100 text-purple-500",
-          },
-        ]);
+          setStats([
+            {
+              label: "Tổng Đơn Hàng",
+              value: tongDon.toString(),
+              icon: "fas fa-receipt",
+              color: "bg-green-100 text-green-500",
+            },
+            {
+              label: "Đơn hàng đã nhận",
+              value: daNhan.toString(),
+              icon: "fa-regular fa-square-plus",
+              color: "bg-blue-100 text-blue-500",
+            },
+            {
+              label: "Đơn hàng đang giao",
+              value: dangGiao.toString(),
+              icon: "fas fa-spinner",
+              color: "bg-yellow-100 text-yellow-500",
+            },
+            {
+              label: "Đã giao",
+              value: `₫${daGiao.toLocaleString("vi-VN")}`,
+              icon: "fas fa-dollar-sign",
+              color: "bg-purple-100 text-purple-500",
+            },
+          ]);
+        }
       } catch (err) {
         console.error("Lỗi lấy đơn hàng:", err);
       }
@@ -258,7 +260,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {orders?.map((order) => (
+              {Array.isArray(orders) && orders?.map((order) => (
                 <tr key={order._id}>
                   <td className="px-6 py-4 whitespace-nowrap">{order.ma_don_hang}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
