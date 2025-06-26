@@ -142,7 +142,7 @@ export default function Home() {
       if (!res.ok) throw new Error("Không thể cập nhật trạng thái");
       setOrders((prev) =>
         prev.map((o) =>
-          o._id === orderId ? { ...o, trang_thai: newStatus } : o
+          o._id === orderId ? { ...o, trang_thai_don_hang: newStatus } : o
         )
       );
 
@@ -170,12 +170,12 @@ export default function Home() {
 
         if (Array.isArray(data)) {
           const tongDon = data.length;
-          const dangGiao = data.filter((o) => o.trang_thai === "Đang giao").length;
+          const dangGiao = data.filter((o) => o.trang_thai_don_hang === "Đang giao").length;
           const daNhan = data.filter(
-            (o) => o.trang_thai === "Shipper đã nhận hàng" || o.trang_thai === "Đang giao"
+            (o) => o.trang_thai_don_hang === "Shipper đã nhận hàng" || o.trang_thai_don_hang === "Đang giao"
           ).length;
           const daGiao = data
-            .filter((o) => o.trang_thai === "Giao hàng thành công")
+            .filter((o) => o.trang_thai_don_hang === "Giao hàng thành công")
             .reduce((sum, o) => sum + (o.tong_tien || 0), 0);
 
           setStats([
@@ -279,20 +279,20 @@ export default function Home() {
                     {editingStatusId === order._id ? (
                       <select
                         className="px-2 py-2 text-xs rounded-md text-center min-w-[120px] border border-gray-300"
-                        value={order.trang_thai}
+                        value={order.trang_thai_don_hang}
                         onChange={(e) => handleUpdateStatus(order._id, e.target.value)}
                         onBlur={() => setEditingStatusId(null)}
                       >
-                        <option value={order.trang_thai}>{order.trang_thai}</option>
-                        {nextStatusMap[order.trang_thai] && (
-                          <option value={nextStatusMap[order.trang_thai]}>
-                            {nextStatusMap[order.trang_thai]}
+                        <option value={order.trang_thai_don_hang}>{order.trang_thai_don_hang}</option>
+                        {nextStatusMap[order.trang_thai_don_hang] && (
+                          <option value={nextStatusMap[order.trang_thai_don_hang]}>
+                            {nextStatusMap[order.trang_thai_don_hang]}
                           </option>
                         )}
                       </select>
                     ) : (
                       <span
-                        className={`px-2 py-2 text-xs rounded-md text-center min-w-[120px] inline-block cursor-pointer order-${order.trang_thai
+                        className={`px-2 py-2 text-xs rounded-md text-center min-w-[120px] inline-block cursor-pointer order-${order.trang_thai_don_hang
                           .toLowerCase()
                           .normalize("NFD")
                           .replace(/[\u0300-\u036f]/g, "")
@@ -300,7 +300,7 @@ export default function Home() {
                           .replace(/\s+/g, "_")}`}
                         onClick={() => setEditingStatusId(order._id)}
                       >
-                        {order.trang_thai}
+                        {order.trang_thai_don_hang}
                       </span>
                     )}
                     <button

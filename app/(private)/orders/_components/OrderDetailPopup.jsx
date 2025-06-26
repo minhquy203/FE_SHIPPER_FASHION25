@@ -108,7 +108,7 @@ export default function OrderDetailPopup({ order, setIsOpen }) {
               </p>
             </div>
           </div>
-          {order.trang_thai === "Đang giao" && (
+          {order.trang_thai_don_hang === "Đang giao" && (
             <div className="grid grid-cols-2 gap-2 items-end">
               <div
                 className="bg-[#EBFFEC] text-[#34A853] text-center py-2 px-4 cursor-pointer rounded-md"
