@@ -3,7 +3,7 @@ export default function OrderDetailPopup({ order, setIsOpen }) {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipper/order/update-status/${orderId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`, },
         body: JSON.stringify({ status: newStatus }),
       });
       if (!res.ok) return;
@@ -18,6 +18,9 @@ export default function OrderDetailPopup({ order, setIsOpen }) {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipper/order/cancel-order/${orderId}`, {
         method: "PUT",
+        headers: {
+      "Authorization": `Bearer ${token}`, // 👈 BỔ SUNG TOKEN
+    },
       });
 
       if (!res.ok) {
