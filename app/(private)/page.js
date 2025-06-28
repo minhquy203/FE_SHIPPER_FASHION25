@@ -26,7 +26,7 @@ export default function Page() {
       if (!token) return;
 
       try {
-        const res = await fetch(`${process.env.minhquy203}/api/auth/me`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error("Không thể lấy thông tin người dùng");
@@ -59,7 +59,7 @@ export default function Page() {
   const handleSave = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`${process.env.minhquy203}/api/auth/update`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/update`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
