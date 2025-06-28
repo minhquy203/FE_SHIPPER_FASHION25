@@ -1,7 +1,7 @@
 export default function OrderDetailPopup({ order, setIsOpen }) {
   const handleChangeStatus = async (orderId, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/shipper/order/update-status/${orderId}`, {
+      const res = await fetch(`${process.env.minhquy203}/api/shipper/order/update-status/${orderId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -16,7 +16,7 @@ export default function OrderDetailPopup({ order, setIsOpen }) {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/shipper/order/cancel-order/${orderId}`, {
+      const res = await fetch(`${process.env.minhquy203}/api/shipper/order/cancel-order/${orderId}`, {
         method: "PUT",
       });
 
