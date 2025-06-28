@@ -27,7 +27,7 @@ export default function Page() {
 
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
-          headers: { 'Authorization': `Bearer ${token}` }
+          // headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error("Không thể lấy thông tin người dùng");
 
