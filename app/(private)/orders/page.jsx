@@ -158,6 +158,8 @@ export default function Home() {
       try {
         const token = localStorage.getItem("token");
         console.log(token)
+        console.log("API_URL:", process.env.NEXT_PUBLIC_API_URL);
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipper/order/get-my-orders`, {
           headers: {
             "Content-Type": "application/json",
